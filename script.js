@@ -13,7 +13,7 @@ function moveHero(event) {
         let yPosition = parseInt(
             window.getComputedStyle(hero).getPropertyValue('top')
         )
-        if (yPosition >= 490) {
+        if (yPosition >= 425) {
             return
         }
         hero.style.top = `${yPosition + 30}px`
@@ -23,7 +23,7 @@ function moveHero(event) {
         let yPosition = parseInt(
             window.getComputedStyle(hero).getPropertyValue('top')
         )
-        if (yPosition <= 20) {
+        if (yPosition <= 120) {
             return
         }
         hero.style.top = `${yPosition - 30}px`
@@ -46,8 +46,8 @@ function positionLaser(laser) {
     let yPosition = parseInt(
         window.getComputedStyle(hero).getPropertyValue('top')
     )
-    laser.style.left = `${xPosition + 190}px`
-    laser.style.top = `${yPosition}px`
+    laser.style.left = `${xPosition + 40}px`
+    laser.style.top = `${yPosition - 20}px`
     playArea.appendChild(laser)
     moveLaser(laser)
 }
@@ -109,7 +109,7 @@ function createAliens() {
     let indexRandomImage = Math.floor(Math.random() * images.length)
     alien.src = images[indexRandomImage]
     alien.classList.add('alien')
-    alien.style.top = `${Math.floor(Math.random() * 500)}px`
+    alien.style.top = `${Math.floor(Math.random() * 300)}px`
     playArea.appendChild(alien)
     moveAlien(alien)
 }
@@ -123,7 +123,7 @@ function moveAlien(alien) {
 
         alien.style.left = `${alienLeft - 8}px`
 
-        if (alienLeft <= 120) {
+        if (alienLeft <= 0) {
             return gameOver()
         }
     }, 50)
@@ -175,6 +175,7 @@ function playGame() {
 
     window.addEventListener('keydown', event => {
         if (event.key === ' ') {
+            event.preventDefault();
             createLaser()
         }
         moveHero(event.key)
@@ -186,12 +187,6 @@ function playGame() {
         }
     }, 2500)
 
-    setInterval(()=>{
-        hero.src = "img/iron-man-rocket.png"
-        setTimeout(()=>{
-            hero.src = "img/iron-man.png"
-        },500)
-    },1000)
 }
 
 startGame.addEventListener('click', playGame)
