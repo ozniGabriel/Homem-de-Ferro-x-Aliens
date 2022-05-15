@@ -7,6 +7,7 @@ let images = ['img/monster-1.png', 'img/monster-2.png', 'img/monster-3.png']
 let score = 0
 let finish = false
 let somDisparo = document.querySelector('#disparo')
+let instructionsButton = document.querySelector('#instructionsButton')
 
 // MOVIMENTAR O HERÓI
 function moveHero(event) {
@@ -157,6 +158,11 @@ function showExplosion(alien) {
     points.innerHTML = `Pontuação: ${score}`
 }
 
+// MOSTRAR CONTROLES DO JOGO
+const showInstructions = ()=> {
+    alert("Controles do Jogo:\n\n * Para movimentar o Jogador, use as setas do teclado (CIMA/BAIXO);\n * Para atirar use a tecla ESPAÇO;")
+}
+
 // INICIAR JOGO
 function playGame() {
     playArea.classList.remove('jogoPerdido')
@@ -194,4 +200,5 @@ function gameOver() {
     hero.style.top = '100px'
 }
 
+instructionsButton.addEventListener('click', showInstructions)
 startGame.addEventListener('click', playGame)
