@@ -13,7 +13,7 @@ function moveHero(event) {
         let yPosition = parseInt(
             window.getComputedStyle(hero).getPropertyValue('top')
         )
-        if (yPosition >= 425) {
+        if (yPosition >= 455) {
             return
         }
         hero.style.top = `${yPosition + 30}px`
@@ -23,7 +23,7 @@ function moveHero(event) {
         let yPosition = parseInt(
             window.getComputedStyle(hero).getPropertyValue('top')
         )
-        if (yPosition <= 120) {
+        if (yPosition <= 30) {
             return
         }
         hero.style.top = `${yPosition - 30}px`
@@ -35,6 +35,7 @@ function createLaser() {
     let laser = document.createElement('img')
     laser.src = 'img/shoot.png'
     laser.classList.add('laser')
+    playArea.appendChild(laser)
     positionLaser(laser)
 }
 
@@ -46,27 +47,31 @@ function positionLaser(laser) {
     let yPosition = parseInt(
         window.getComputedStyle(hero).getPropertyValue('top')
     )
-    laser.style.left = `${xPosition + 40}px`
+    laser.style.left = `${xPosition + 30}px`
     laser.style.top = `${yPosition - 20}px`
-    playArea.appendChild(laser)
+
     moveLaser(laser)
 }
 
 // MOVER O DISPARO (LASER)
 function moveLaser(laser) {
     let laserInterval = setInterval(() => {
-        let xPosition = parseInt(laser.style.left)
+        let xPosition = parseInt(
+            window.getComputedStyle(laser).getPropertyValue('left')
+        )
         let aliens = document.querySelectorAll('.alien')
-        if (xPosition >= 950) {
+
+        if (xPosition >= 900) {
             laser.remove()
         }
+
         aliens.forEach(alien => {
             if (detectCollision(laser, alien)) {
-                clearInterval(laserInterval)
-                showExplosion(alien, laser)
+                laser.remove()
+                showExplosion(alien)
             }
         })
-        laser.style.left = `${xPosition + 40}px`
+        laser.style.left = `${xPosition + 50}px`
     }, 60)
 }
 
@@ -92,11 +97,7 @@ function detectCollision(laser, alien) {
         window.getComputedStyle(alien).getPropertyValue('bottom')
     )
 
-    if (
-        laserLeft >= alienLeft &&
-        laserTop + 30 >= alienTop &&
-        laserBottom + 30 >= alienBottom
-    ) {
+    if (laserLeft >= alienLeft && laserTop + 30 >= alienTop && laserBottom + 30 >= alienBottom) {
         return true
     } else {
         return false
@@ -123,29 +124,14 @@ function moveAlien(alien) {
 
         alien.style.left = `${alienLeft - 8}px`
 
-        if (alienLeft <= 0) {
+        if (alienLeft <= 310) {
             return gameOver()
         }
     }, 50)
 }
 
-// FIM DE JOGO
-function gameOver() {
-    playArea.classList.add('jogoPerdido')
-    let aliens = document.querySelectorAll('.alien')
-    let lasers = document.querySelectorAll('.laser')
-    aliens.forEach(alien => alien.remove()) //REMOVE TODOS OS ALIENS QUE AINDA ESTIVEREM NA TELA
-    lasers.forEach(laser => laser.remove())
-    finish = true
-    document.querySelector('#message').innerHTML = 'Missão Fracassada!'
-    startGame.innerHTML = 'Novo Jogo'
-    inicio.style.display = 'flex'
-    hero.style.top = '100px'
-}
-
 // FUNÇÃO PRA RESOLVER UM BUG QUE DAVA NA HORA DE SOMAR OS PONTOS
-function showExplosion(alien, laser) {
-    laser.remove()
+function showExplosion(alien) {
     let explosion = document.createElement('img')
     explosion.src = 'img/explosion.png'
     explosion.classList.add('explosion')
@@ -153,14 +139,18 @@ function showExplosion(alien, laser) {
     explosion.style.left = window
         .getComputedStyle(alien)
         .getPropertyValue('left')
-    alien.remove()
+
     playArea.appendChild(explosion)
+
+    alien.remove()
+
     setTimeout(() => {
         explosion.classList.add('explosionHide')
     }, 200)
     setTimeout(() => {
         explosion.remove()
     }, 1000)
+
     score += 10
     points.innerHTML = `Pontuação: ${score}`
 }
@@ -175,7 +165,7 @@ function playGame() {
 
     window.addEventListener('keydown', event => {
         if (event.key === ' ') {
-            event.preventDefault();
+            event.preventDefault()
             createLaser()
         }
         moveHero(event.key)
@@ -186,7 +176,20 @@ function playGame() {
             createAliens()
         }
     }, 2500)
+}
 
+// FIM DE JOGO
+function gameOver() {
+    playArea.classList.add('jogoPerdido')
+    let aliens = document.querySelectorAll('.alien')
+    let lasers = document.querySelectorAll('.laser')
+    aliens.forEach(alien => alien.remove()) //REMOVE TODOS OS ALIENS QUE AINDA ESTIVEREM NA TELA
+    lasers.forEach(laser => laser.remove())
+    finish = true
+    document.querySelector('#message').innerHTML = 'Missão Fracassada!'
+    startGame.innerHTML = 'Novo Jogo'
+    inicio.style.display = 'flex'
+    hero.style.top = '100px'
 }
 
 startGame.addEventListener('click', playGame)

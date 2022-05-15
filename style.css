@@ -13,6 +13,7 @@ body{
 }
 
 .inicio{
+    border: 2px red solid;
     color: rgb(0, 1, 1);
     background-color: burlywood;
     font-family: Arial, Helvetica, sans-serif;
@@ -28,10 +29,11 @@ body{
 }
 
 .jogo{
+    border: 2px red solid;
     display: flex;
     flex-direction: column;
     width: 700px;
-    height: 450px;
+    height: 500px;
     background: url('img/space.png');
 }
 
@@ -45,6 +47,7 @@ body{
 }
 
 .score{
+    border: 2px red solid;
     color: rgb(241, 251, 242);
     background-color: rgb(248, 13, 1);
     border: none;
@@ -62,25 +65,27 @@ body{
     position: absolute;
     height: 80px;
     width: 80px;
-    left: 320px;
-    top: 100px;
+    left: 310px;    
+    top: 70px;
 }
  
 .alien, .explosion{
-    position: relative;
+    position: absolute;
     width: 70px;
     height: 60px;
-    left: 580px;
-    top: 100px;
+    left: 800px;
+    border: 2px red solid;
 }
 
 .explosionHide{
     opacity: 0;
     transition: opacity 1s;
 }
-
+      
 .laser{
     position: absolute;
+    top: 0px;
     width: 70px;
     height: 60px;
+    border: 2px red solid;
 }
