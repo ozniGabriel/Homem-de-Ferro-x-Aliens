@@ -6,6 +6,7 @@ let points = document.querySelector('.points')
 let images = ['img/monster-1.png', 'img/monster-2.png', 'img/monster-3.png']
 let score = 0
 let finish = false
+let somDisparo = document.querySelector('#disparo')
 
 // MOVIMENTAR O HERÓI
 function moveHero(event) {
@@ -13,7 +14,7 @@ function moveHero(event) {
         let yPosition = parseInt(
             window.getComputedStyle(hero).getPropertyValue('top')
         )
-        if (yPosition >= 455) {
+        if (yPosition >= 475) {
             return
         }
         hero.style.top = `${yPosition + 30}px`
@@ -23,7 +24,7 @@ function moveHero(event) {
         let yPosition = parseInt(
             window.getComputedStyle(hero).getPropertyValue('top')
         )
-        if (yPosition <= 30) {
+        if (yPosition <= 40) {
             return
         }
         hero.style.top = `${yPosition - 30}px`
@@ -36,6 +37,7 @@ function createLaser() {
     laser.src = 'img/shoot.png'
     laser.classList.add('laser')
     playArea.appendChild(laser)
+    somDisparo.play()
     positionLaser(laser)
 }
 
@@ -110,7 +112,7 @@ function createAliens() {
     let indexRandomImage = Math.floor(Math.random() * images.length)
     alien.src = images[indexRandomImage]
     alien.classList.add('alien')
-    alien.style.top = `${Math.floor(Math.random() * 300)}px`
+    alien.style.top = `${Math.floor(Math.random() * 440) + 50}px`
     playArea.appendChild(alien)
     moveAlien(alien)
 }
